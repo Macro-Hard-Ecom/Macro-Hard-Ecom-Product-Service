@@ -9,7 +9,6 @@ on:
 
 # ─── Environment Variables ─────────────────────────────────────────────────
 env:
-  AWS_REGION: ap-southeast-1              # Singapore region (closest to Sri Lanka)
   ECR_REPOSITORY: product-service        # Your ECR repository name
   IMAGE_TAG: ${{ github.sha }}           # Use commit SHA as image tag for traceability
   PORT: 3000
@@ -74,7 +73,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
