@@ -24,7 +24,7 @@ const options = {
         description: 'AWS EC2 Production Server',
         variables: {
           'ec2-public-ip': {
-            default: '98.81.229.185',
+            default: '98.81.229.185:3000',
             description: 'EC2 public IP address',
           },
         },
