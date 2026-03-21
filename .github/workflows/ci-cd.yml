@@ -42,9 +42,9 @@ jobs:
         run: npm run test:ci
         env:
           NODE_ENV: test
-          MONGO_URI: ${{ secrets.MONGO_URI_TEST }}
-          JWT_SECRET: test-secret-for-ci
+          MONGO_URI: ${{ secrets.MONGO_URI }}
           ORDER_SERVICE_URL: http://localhost:4000
+          USER_SERVICE_URL: ${{ secrets.USER_SERVICE_URL }}
 
       - name: SonarCloud Scan (SAST)
         uses: SonarSource/sonarcloud-github-action@master
