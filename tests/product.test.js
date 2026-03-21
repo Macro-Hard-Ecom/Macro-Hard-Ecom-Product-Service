@@ -12,12 +12,12 @@ jest.mock('../src/services/orderServiceClient', () => ({
   }),
 }));
 
-// ── Mock mongoose to avoid needing a real MongoDB in CI ─────────────────────
+// ── Mock mongoose — return proper connection shape so db.js doesn't crash ────
 jest.mock('mongoose', () => {
   const actualMongoose = jest.requireActual('mongoose');
   return {
     ...actualMongoose,
-    connect: jest.fn().mockResolvedValue(true),
+    connect: jest.fn().mockResolvedValue({ connection: { host: 'mocked-host' } }),
   };
 });
 
