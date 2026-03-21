@@ -46,7 +46,6 @@ jobs:
           USER_SERVICE_URL: ${{ secrets.USER_SERVICE_URL }}
 
       - name: SonarCloud Scan (SAST)
-        continue-on-error: true    # Don't block deployment if SonarCloud fails
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
