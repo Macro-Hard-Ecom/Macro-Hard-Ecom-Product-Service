@@ -3,9 +3,9 @@ name: Product Service CI/CD Pipeline
 # ─── Trigger ───────────────────────────────────────────────────────────────
 on:
   push:
-    branches: [main, dev]
+    branches: [main]
   pull_request:
-    branches: [main, dev]
+    branches: [main]
 
 # ─── Environment Variables ─────────────────────────────────────────────────
 env:

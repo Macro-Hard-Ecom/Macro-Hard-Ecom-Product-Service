@@ -14,7 +14,11 @@ const app = express();
 connectDB();
 
 // Helmet sets secure HTTP response headers
-app.use(helmet());
+// Relaxed CSP for Swagger UI to work properly
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+}));
 
 // Rate limiting — prevents brute force and DDoS (100 requests per 15 minutes)
 const limiter = rateLimit({

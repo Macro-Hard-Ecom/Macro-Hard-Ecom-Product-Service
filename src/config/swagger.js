@@ -11,7 +11,7 @@ const options = {
         'Handles product catalog management and integrates with the Order Service.',
       contact: {
         name: 'Wajee',
-        email: 'wajee@mazzdigi.com',
+        email: 'shaheedwajee@gmail.com',
       },
     },
     servers: [
@@ -22,12 +22,6 @@ const options = {
       {
         url: 'http://98.81.229.185:3000',
         description: 'AWS EC2 Production Server',
-        variables: {
-          'ec2-public-ip': {
-            default: 'your-ec2-ip',
-            description: 'EC2 public IP address',
-          },
-        },
       },
     ],
     components: {
