@@ -12,6 +12,20 @@ jest.mock('../src/services/orderServiceClient', () => ({
   }),
 }));
 
+// ── Mock auth middleware — bypass User Service call in tests ─────────────────
+// In production, auth.js calls the User Service /validateToken endpoint.
+// In tests we skip that HTTP call and just attach a fake user to the request.
+jest.mock('../src/middleware/auth', () => ({
+  protect: (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ success: false, message: 'Access denied. No token provided.' });
+    }
+    req.user = { id: 'user123', email: 'test@test.com' };
+    next();
+  },
+}));
+
 // ── Mock mongoose — return proper connection shape so db.js doesn't crash ────
 jest.mock('mongoose', () => {
   const actualMongoose = jest.requireActual('mongoose');
@@ -24,10 +38,8 @@ jest.mock('mongoose', () => {
 // ── Mock the Product model ───────────────────────────────────────────────────
 jest.mock('../src/models/Product');
 
-// ── JWT token for protected routes ──────────────────────────────────────────
-const jwt = require('jsonwebtoken');
-process.env.JWT_SECRET = 'test-secret-for-ci';
-const testToken = jwt.sign({ id: 'user123', email: 'test@test.com' }, process.env.JWT_SECRET);
+// ── Fake token for protected routes (any non-empty Bearer token works in tests)
+const testToken = 'test-token-bypassed-by-mock';
 
 // ── Sample product data ──────────────────────────────────────────────────────
 const sampleProduct = {
