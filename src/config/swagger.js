@@ -20,7 +20,7 @@ const options = {
         description: 'Local Development Server',
       },
       {
-        url: 'http://{ec2-public-ip}:3000',
+        url: 'http://98.81.229.185:3000',
         description: 'AWS EC2 Production Server',
         variables: {
           'ec2-public-ip': {
