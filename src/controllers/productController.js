@@ -174,6 +174,29 @@ const getProductStats = async (req, res, next) => {
   }
 };
 
+/**
+ * @desc    Get the count of all products listed by a specific user/company
+ * @route   GET /api/products/count/:id
+ * @access  Public
+ *
+ * :id is the createdBy value — the user/company ID from the User Service JWT.
+ * Any service (e.g. User Service) can call this to know how many products
+ * a seller has listed without fetching the full product list.
+ */
+const getProductCountByUser = async (req, res, next) => {
+  try {
+    const count = await Product.countDocuments({ createdBy: req.params.id });
+
+    res.status(200).json({
+      success: true,
+      userId: req.params.id,
+      count,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
@@ -181,4 +204,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   getProductStats,
+  getProductCountByUser,
 };

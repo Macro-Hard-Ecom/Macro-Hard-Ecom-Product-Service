@@ -7,6 +7,7 @@ const {
   updateProduct,
   deleteProduct,
   getProductStats,
+  getProductCountByUser,
 } = require('../controllers/productController');
 const { protect } = require('../middleware/auth');
 
@@ -59,6 +60,46 @@ const { protect } = require('../middleware/auth');
  *                     $ref: '#/components/schemas/Product'
  */
 router.get('/', getAllProducts);
+
+/**
+ * @swagger
+ * /api/products/count/{userId}:
+ *   get:
+ *     summary: Get total product count for a user/company
+ *     description: >
+ *       Returns the number of products listed by a specific seller (identified by their
+ *       user/company ID from the User Service). No authentication required — any service
+ *       can call this endpoint for inter-service queries (e.g. User Service showing a
+ *       seller profile badge).
+ *     tags: [Products]
+ *     security: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The user/company ID stored in the createdBy field (from JWT sub/id)
+ *         example: "abc123"
+ *     responses:
+ *       200:
+ *         description: Product count for the given user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 userId:
+ *                   type: string
+ *                   example: "abc123"
+ *                 count:
+ *                   type: integer
+ *                   example: 7
+ */
+router.get('/count/:id', getProductCountByUser);
 
 /**
  * @swagger
