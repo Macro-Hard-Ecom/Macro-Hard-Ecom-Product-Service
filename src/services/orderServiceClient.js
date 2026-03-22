@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const ORDER_SERVICE_URL = process.env.ORDER_SERVICE_URL || 'http://localhost:4000';
+const ORDER_SERVICE_URL = process.env.ORDER_SERVICE_URL || 'http://51.21.181.2:5000';
 
 /**
  * Order Service HTTP Client

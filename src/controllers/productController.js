@@ -57,12 +57,18 @@ const addProduct = async (req, res, next) => {
   try {
     const { name, description, price, category, imageUrl, stock } = req.body;
 
-    // createdBy is taken from the JWT token (set by auth middleware)
-    // This links every product to the company/user who created it
-    const createdBy = req.user?.sub || req.user?.id || req.user?.email;
+    // createdBy is the user's database ID from the JWT claim `userId`.
+    // The auth middleware normalises this into req.user.userId.
+    // We deliberately do NOT fall back to email — IDs are stable, emails can change.
+    const createdBy = req.user?.userId;
 
     if (!createdBy) {
-      return res.status(401).json({ success: false, message: 'Unable to identify user from token.' });
+      return res.status(401).json({
+        success: false,
+        message:
+          'Unable to identify user ID from token. ' +
+          'The User Service JWT must include a `userId` claim with the numeric user ID.',
+      });
     }
 
     const product = await Product.create({
@@ -94,9 +100,9 @@ const updateProduct = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Product not found' });
     }
 
-    // Only the company/user who created the product can update it
-    const requesterId = req.user?.sub || req.user?.id || req.user?.email;
-    if (product.createdBy !== requesterId) {
+    // Only the user who created the product can update it — compare by userId
+    const requesterId = req.user?.userId;
+    if (!requesterId || product.createdBy !== requesterId) {
       return res.status(403).json({ success: false, message: 'Not authorised to update this product' });
     }
 
@@ -125,9 +131,9 @@ const deleteProduct = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Product not found' });
     }
 
-    // Only the company/user who created the product can delete it
-    const requesterId = req.user?.sub || req.user?.id || req.user?.email;
-    if (product.createdBy !== requesterId) {
+    // Only the user who created the product can delete it — compare by userId
+    const requesterId = req.user?.userId;
+    if (!requesterId || product.createdBy !== requesterId) {
       return res.status(403).json({ success: false, message: 'Not authorised to delete this product' });
     }
 

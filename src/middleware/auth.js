@@ -55,9 +55,25 @@ const protect = async (req, res, next) => {
     }
 
     // Decode the token payload without verification (User Service already verified it)
-    // This gives us the user's email and role to attach to the request
     const decoded = jwt.decode(token);
-    req.user = decoded;
+
+    // Build req.user — prefer the explicit userId claim over sub (which is email)
+    // The User Service JWT should include a `userId` claim with the numeric database ID.
+    // Fallback chain: decoded.userId → decoded.id → decoded.sub (email, last resort)
+    req.user = {
+      ...decoded,
+      // Normalise to a single `userId` field so controllers don't need to guess
+      userId: decoded?.userId?.toString() || decoded?.id?.toString() || null,
+    };
+
+    if (!req.user.userId) {
+      // Token is valid but contains no user ID claim — this means the User Service
+      // hasn't added the userId claim to the JWT yet.
+      console.warn(
+        '[AUTH] Token validated but no userId claim found. ' +
+        'Ask the User Service developer to add `.claim("userId", user.getId())` to JwtUtil.generateToken().'
+      );
+    }
 
     next();
 

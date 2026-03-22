@@ -21,7 +21,7 @@ jest.mock('../src/middleware/auth', () => ({
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({ success: false, message: 'Access denied. No token provided.' });
     }
-    req.user = { id: 'user123', email: 'test@test.com' };
+    req.user = { userId: 'user123', email: 'test@test.com' };
     next();
   },
 }));
@@ -51,7 +51,7 @@ const sampleProduct = {
   imageUrl: 'https://example.com/chicken-burger.jpg',
   stock: 50,
   isAvailable: true,
-  createdBy: 'user123', // matches req.user.id set by auth mock
+  createdBy: 'user123', // matches req.user.userId set by auth mock
   createdAt: new Date().toISOString(),
 };
 
