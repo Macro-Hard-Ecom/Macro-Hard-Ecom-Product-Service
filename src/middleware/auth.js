@@ -63,7 +63,8 @@ const protect = async (req, res, next) => {
     req.user = {
       ...decoded,
       // Normalise to a single `userId` field so controllers don't need to guess
-      userId: decoded?.userId?.toString() || decoded?.id?.toString() || null,
+      // Priority: id → userId (User Service JWT uses `id` as the claim name)
+      userId: decoded?.id?.toString() || decoded?.userId?.toString() || null,
     };
 
     if (!req.user.userId) {
