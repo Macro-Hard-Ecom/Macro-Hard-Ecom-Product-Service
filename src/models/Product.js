@@ -42,6 +42,11 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    createdBy: {
+      type: String,
+      required: [true, 'createdBy (user/company ID) is required'],
+      trim: true,
+    },
   },
   {
     timestamps: true, // Adds createdAt and updatedAt automatically
