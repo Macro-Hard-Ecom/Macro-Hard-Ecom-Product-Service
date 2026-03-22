@@ -29,7 +29,7 @@ const { protect } = require('../middleware/auth');
  *         name: category
  *         schema:
  *           type: string
- *           enum: [Burgers, Pizza, Chicken, Beverages, Desserts, Sides, Other]
+ *           enum: [Electronics, Vehicles, Property, Furniture, Fashion, Services, 'Food & Beverages', Sports & Leisure, Other]
  *         description: Filter by category
  *       - in: query
  *         name: available

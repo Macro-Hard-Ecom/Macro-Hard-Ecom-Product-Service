@@ -7,8 +7,8 @@ const options = {
       title: 'Product Service API',
       version: '1.0.0',
       description:
-        'Product Service for the Food Ordering System — CTSE Assignment 2026 (SE4010). ' +
-        'Handles product catalog management and integrates with the Order Service.',
+        'Product Service for the Macrohard Marketplace — CTSE Assignment 2026 (SE4010). ' +
+        'Handles product/listing catalog management across all categories and integrates with the Order Service.',
       contact: {
         name: 'Wajee',
         email: 'shaheedwajee@gmail.com',
@@ -38,12 +38,16 @@ const options = {
           type: 'object',
           properties: {
             _id: { type: 'string', example: '65abc123def456' },
-            name: { type: 'string', example: 'Chicken Burger' },
-            description: { type: 'string', example: 'Crispy fried chicken in a brioche bun' },
-            price: { type: 'number', example: 12.99 },
-            category: { type: 'string', example: 'Burgers' },
-            imageUrl: { type: 'string', example: 'https://example.com/chicken-burger.jpg' },
-            stock: { type: 'integer', example: 50 },
+            name: { type: 'string', example: 'Samsung Galaxy S24' },
+            description: { type: 'string', example: 'Excellent condition, 256GB, original box included' },
+            price: { type: 'number', example: 450.00 },
+            category: {
+              type: 'string',
+              enum: ['Electronics', 'Vehicles', 'Property', 'Furniture', 'Fashion', 'Services', 'Food & Beverages', 'Sports & Leisure', 'Other'],
+              example: 'Electronics',
+            },
+            imageUrl: { type: 'string', example: 'https://example.com/phone.jpg' },
+            stock: { type: 'integer', example: 1 },
             isAvailable: { type: 'boolean', example: true },
             createdAt: { type: 'string', format: 'date-time' },
           },
@@ -52,12 +56,16 @@ const options = {
           type: 'object',
           required: ['name', 'description', 'price', 'category'],
           properties: {
-            name: { type: 'string', example: 'Chicken Burger' },
-            description: { type: 'string', example: 'Crispy fried chicken in a brioche bun' },
-            price: { type: 'number', example: 12.99 },
-            category: { type: 'string', example: 'Burgers' },
-            imageUrl: { type: 'string', example: 'https://example.com/chicken-burger.jpg' },
-            stock: { type: 'integer', example: 50 },
+            name: { type: 'string', example: 'Samsung Galaxy S24' },
+            description: { type: 'string', example: 'Excellent condition, 256GB, original box included' },
+            price: { type: 'number', example: 450.00 },
+            category: {
+              type: 'string',
+              enum: ['Electronics', 'Vehicles', 'Property', 'Furniture', 'Fashion', 'Services', 'Food & Beverages', 'Sports & Leisure', 'Other'],
+              example: 'Electronics',
+            },
+            imageUrl: { type: 'string', example: 'https://example.com/phone.jpg' },
+            stock: { type: 'integer', example: 1 },
           },
         },
         Error: {

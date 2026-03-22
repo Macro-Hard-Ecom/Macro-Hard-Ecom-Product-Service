@@ -24,7 +24,17 @@ const productSchema = new mongoose.Schema(
       required: [true, 'Product category is required'],
       trim: true,
       enum: {
-        values: ['Burgers', 'Pizza', 'Chicken', 'Beverages', 'Desserts', 'Sides', 'Other'],
+        values: [
+          'Electronics',
+          'Vehicles',
+          'Property',
+          'Furniture',
+          'Fashion',
+          'Services',
+          'Food & Beverages',
+          'Sports & Leisure',
+          'Other',
+        ],
         message: '{VALUE} is not a valid category',
       },
     },
@@ -56,7 +66,7 @@ const productSchema = new mongoose.Schema(
 );
 
 // Index for faster search queries
-productSchema.index({ name: 'text', category: 1 });
+productSchema.index({ name: 'text', description: 'text', category: 1 });
 productSchema.index({ isAvailable: 1, category: 1 });
 
 const Product = mongoose.model('Product', productSchema);
