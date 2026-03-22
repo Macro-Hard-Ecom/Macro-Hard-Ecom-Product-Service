@@ -51,6 +51,7 @@ const sampleProduct = {
   imageUrl: 'https://example.com/chicken-burger.jpg',
   stock: 50,
   isAvailable: true,
+  createdBy: 'user123', // matches req.user.id set by auth mock
   createdAt: new Date().toISOString(),
 };
 
@@ -162,6 +163,8 @@ describe('Product Service API', () => {
 
     it('should update a product with valid token', async () => {
       const updatedProduct = { ...sampleProduct, price: 15.99 };
+      // findById is called first to check ownership, then findByIdAndUpdate
+      Product.findById.mockResolvedValue(sampleProduct);
       Product.findByIdAndUpdate.mockResolvedValue(updatedProduct);
 
       const res = await request(app)
@@ -182,6 +185,8 @@ describe('Product Service API', () => {
     });
 
     it('should delete a product with valid token', async () => {
+      // findById is called first to check ownership, then findByIdAndDelete
+      Product.findById.mockResolvedValue(sampleProduct);
       Product.findByIdAndDelete.mockResolvedValue(sampleProduct);
 
       const res = await request(app)
