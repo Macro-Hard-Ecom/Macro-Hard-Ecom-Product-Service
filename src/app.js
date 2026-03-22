@@ -3,6 +3,7 @@ const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 const connectDB = require('./config/db');
@@ -12,6 +13,15 @@ const errorHandler = require('./middleware/errorHandler');
 const app = express();
 
 connectDB();
+
+// CORS configuration - allow authorization header
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:5000'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization', 'authorization'],
+  exposedHeaders: ['Content-Length', 'X-Request-Id'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+}));
 
 // Helmet sets secure HTTP response headers
 // Relaxed CSP for Swagger UI to work properly
